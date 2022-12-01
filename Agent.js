@@ -100,14 +100,14 @@ class Agent
         if(draw_car){this.car.render(this.agent_parameters['name'])}
         
 
-        this.current_state = this.car.get_current_state(this.checkpoints[this.checkpoint_index])
+        this.current_state = this.car.get_current_state(this.checkpoints[this.checkpoint_index % this.checkpoints.length])
 
-        if(this.car.intersects(this.checkpoints[this.checkpoint_index]))
+        if(this.car.intersects(this.checkpoints[this.checkpoint_index % this.checkpoints.length]))
         {
             this.reward += (this.positive_reward + ((this.checkpoint_index+1) * 100)) // set reward equal to if the car intersects the current checkpoint
 
             this.checkpoint_index += 1
-            this.checkpoint_index = this.checkpoint_index % this.checkpoints.length // go back to first checkpoint
+            // this.checkpoint_index = this.checkpoint_index % this.checkpoints.length // go back to first checkpoint
         }
         else if(this.current_state == 0)
         {
@@ -115,7 +115,7 @@ class Agent
         }
         else
         {
-            this.reward += (this.positive_reward / 200) / this.get_dist(this.car.position, this.checkpoints[this.checkpoint_index]['position']) * (100 * (this.checkpoint_index + 1))
+            this.reward += (this.positive_reward / 200) / this.get_dist(this.car.position, this.checkpoints[this.checkpoint_index % this.checkpoints.length]['position']) * (100 * (this.checkpoint_index + 1))
         }
 
         if(step_num % 5 != 0){return}
