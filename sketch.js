@@ -187,7 +187,7 @@ function setup()
 
   start_pos = createVector(500, 500)
 
-  createLines(40)
+  createLines(40 + (5*season_num))
   //
   camera_pos = createVector(0,0)
 
@@ -341,7 +341,7 @@ function draw_road()
     //
     newX = (road_segments[i][0].x + road_segments[i][1].x) / 2
     newY = (road_segments[i][0].y + road_segments[i][1].y) / 2
-    stroke(100 + (2*i))
+    stroke(80 + i*(120 / road_segments.length))
     let angle = atan2(road_segments[i][1].y - road_segments[i][0].y,road_segments[i][1].x - road_segments[i][0].x) + PI/2
     push()
     translate(newX,newY)
@@ -400,7 +400,7 @@ function draw()
           }
           track_progresses.push(int((max_progress / checkpoints.length)*100))
           //regenerate track
-          createLines(40)
+          createLines(40 + (5*season_num))
           for(let i = 0; i < num_agents; i++)
           {
             //regenerate track
