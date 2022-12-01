@@ -443,6 +443,16 @@ function draw()
   text('Epsilon: ' + agents[best_agent].agent_parameters['epsilon'], 40, 7*text_spacing)
   text('State: ' + agents[best_agent].current_state, 40, 8*text_spacing)
 
+  
+  textSize(width * (15 / 2000))
+  text("+ - Increase Camera Zoom", 40, height-1*text_spacing)
+  text("- - Decrease Camera Zoom", 40, height-2*text_spacing)
+  text("g - Display Reward vs Episode", 40, height-3*text_spacing)
+  text("e - Display Q-Table State", 40, height-4*text_spacing)
+  text("r - Save Track Progression CSV", 40, height-5*text_spacing)
+  text("> - Increase Sim Frames", 40, height-6*text_spacing)
+  text("< - Decrease Sim Frames", 40, height-7*text_spacing)
+
   if(show_graph)
   {
     display_reward_graph(agents[best_agent].rewards)
