@@ -78,7 +78,8 @@ function create_agents(old_agents) //top agents = array
     }
 
     print('best agent 1: ' + best_agent_1 + ', best agent 2: ' + best_agent_2)
-    const q_div = 10 / season_num //constrain(10 / season_num, 0.8, 1000)
+    let q_div = 10 / season_num //constrain(10 / season_num, 0.8, 1000)
+    q_div = constrain(q_div, 0.5, 1000)
 
     let new_q_table = []
     for(let state_index = 0; state_index < best_agent_1.num_states; state_index++)
@@ -108,7 +109,7 @@ function create_agents(old_agents) //top agents = array
          sz: createVector(80, 45),
          wheelSize: createVector(14, 10),
          bodyColor: color(random(0,255), random(0,255), random(0,255)),
-         speed: 0.9,
+         speed: 0.8,
          maxSpeed: 8.5,
          steerSpeed: 3.5,
          drag: 0.98,
@@ -149,7 +150,7 @@ function create_agents(old_agents) //top agents = array
          sz: createVector(80, 45),
          wheelSize: createVector(14, 10),
          bodyColor: color(random(0,255), random(0,255), random(0,255)),
-         speed: 0.9,
+         speed: 0.8,
          maxSpeed: 8.5,
          steerSpeed: 3.5,
          drag: 0.98,
@@ -324,9 +325,9 @@ function display_reward_graph(rewards)
     last_point = createVector(current_x, current_y)
 
     noStroke()
-    fill(100,0,0,200)
+    fill(100,0,0,100)
     if(i == rewards.length - 1){text(int(rewards[i]), current_x, current_y - 15)}
-    ellipse(current_x, current_y, width*(15/2000), width*(15/2000))
+    ellipse(current_x, current_y, width*(10/2000), width*(10/2000))
   }
   pop()
 }
@@ -347,7 +348,7 @@ function draw_road()
     rotate(angle)
     noStroke()
 
-    agents[best_agent].checkpoint_index == i ? fill(agents[best_agent].car.bodyColor) : noFill()
+    agents[best_agent].checkpoint_index % checkpoints.length == i ? fill(agents[best_agent].car.bodyColor) : noFill()
 
     rect(0,0,400,400)
     pop()
@@ -398,7 +399,6 @@ function draw()
             //
           }
           track_progresses.push(int((max_progress / checkpoints.length)*100))
-          
           //regenerate track
           createLines(40)
           for(let i = 0; i < num_agents; i++)
