@@ -187,7 +187,7 @@ function setup()
 
   start_pos = createVector(500, 500)
 
-  createLines(40 + (5*season_num))
+  createLines(40 + (2*season_num))
   //
   camera_pos = createVector(0,0)
 
@@ -400,7 +400,7 @@ function draw()
           }
           track_progresses.push(int((max_progress / checkpoints.length)*100))
           //regenerate track
-          createLines(40 + (5*season_num))
+          createLines(40 + (2*season_num))
           for(let i = 0; i < num_agents; i++)
           {
             //regenerate track
