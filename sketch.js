@@ -39,7 +39,7 @@ let max_episodes = 20
 let max_steps = 2000
 let max_seasons = 1000
 
-let num_agents = 50
+let num_agents = 150
 let agents = []
 
 let camera_pos;
@@ -57,6 +57,13 @@ let sim_frames = 1
 
 let track_progresses = []
 
+function get_average_checkpoints(agnt)
+{
+  let sum = agnt.episode_checkpoints.reduce((a, b) => a + b, 0)
+  return sum// / agnt.episode_checkpoints.length
+  //make it so this is now averaged
+  //make it q learning
+}
 function create_agents(old_agents) //top agents = array
 {
   if(old_agents != null)
@@ -66,12 +73,13 @@ function create_agents(old_agents) //top agents = array
 
     for(let i = 0; i < old_agents.length; i++)
     {
-      if(max(old_agents[i].episode_checkpoints) > max(old_agents[best_agent_1].episode_checkpoints))
+
+      if(get_average_checkpoints(old_agents[i]) > get_average_checkpoints(old_agents[best_agent_1]))
       {
         best_agent_1 = i
         if(best_agent_2 == i){best_agent_2 = 0}
       }
-      else if(max(old_agents[i].episode_checkpoints) > max(old_agents[best_agent_2].episode_checkpoints))
+      else if(get_average_checkpoints(old_agents[i]) > get_average_checkpoints(old_agents[best_agent_2]) && i != best_agent_1)
       {
         best_agent_2 = i
       }
@@ -79,7 +87,7 @@ function create_agents(old_agents) //top agents = array
 
     print('best agent 1: ' + best_agent_1 + ', best agent 2: ' + best_agent_2)
     let q_div = 10 / season_num //constrain(10 / season_num, 0.8, 1000)
-    q_div = constrain(q_div, 0.5, 1000)
+    q_div = constrain(q_div, 0.25, 1000)
 
     let new_q_table = []
     for(let state_index = 0; state_index < best_agent_1.num_states; state_index++)
@@ -109,14 +117,14 @@ function create_agents(old_agents) //top agents = array
          sz: createVector(80, 45),
          wheelSize: createVector(14, 10),
          bodyColor: color(random(0,255), random(0,255), random(0,255)),
-         speed: 0.8,
-         maxSpeed: 8.5,
-         steerSpeed: 3.5,
-         drag: 0.98,
+         speed: 0.66,
+         maxSpeed: 7.8,
+         steerSpeed: 1.6,
+         drag: 0.984,
          numRays: 5,
-         rayLength: 280,
+         rayLength: 140,
         }
-       )
+      )
   
        new_agent = new Agent(
         agent_parameters = {
@@ -150,12 +158,12 @@ function create_agents(old_agents) //top agents = array
          sz: createVector(80, 45),
          wheelSize: createVector(14, 10),
          bodyColor: color(random(0,255), random(0,255), random(0,255)),
-         speed: 0.8,
-         maxSpeed: 8.5,
-         steerSpeed: 3.5,
-         drag: 0.98,
+         speed: 0.66,
+         maxSpeed: 7.8,
+         steerSpeed: 1.6,
+         drag: 0.984,
          numRays: 5,
-         rayLength: 280,
+         rayLength: 140,
         }
       )
 
@@ -187,7 +195,7 @@ function setup()
 
   start_pos = createVector(500, 500)
 
-  createLines(40 + (2*season_num))
+  createLines(45)// + (season_num))
   //
   camera_pos = createVector(0,0)
 
@@ -398,9 +406,10 @@ function draw()
             }
             //
           }
-          track_progresses.push(int((max_progress / checkpoints.length)*100))
+          // track_progresses.push(max_progress)
+          track_progresses.push((max_progress / checkpoints.length)) // proportion completion
           //regenerate track
-          createLines(40 + (2*season_num))
+          createLines(45)// + (season_num))
           for(let i = 0; i < num_agents; i++)
           {
             //regenerate track
