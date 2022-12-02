@@ -121,7 +121,7 @@ function create_agents(old_agents) //top agents = array
          maxSpeed: 7.8,
          steerSpeed: 1.6,
          drag: 0.984,
-         numRays: 5,
+         numRays: 9,
          rayLength: 140,
         }
       )
@@ -162,7 +162,7 @@ function create_agents(old_agents) //top agents = array
          maxSpeed: 7.8,
          steerSpeed: 1.6,
          drag: 0.984,
-         numRays: 5,
+         numRays: 9,
          rayLength: 140,
         }
       )
@@ -192,6 +192,8 @@ function setup()
   rectMode(CENTER)
   textAlign(CENTER)
   createCanvas(windowWidth, windowHeight)
+  
+  print('version 1.109')
 
   start_pos = createVector(500, 500)
 
