@@ -115,7 +115,7 @@ class Agent
         }
         else
         {
-            this.reward += (this.positive_reward / 200) / this.get_dist(this.car.position, this.checkpoints[this.checkpoint_index % this.checkpoints.length]['position']) * (100 * (this.checkpoint_index + 1))
+            this.reward += (this.positive_reward / 100) / (this.get_dist(this.car.position, this.checkpoints[this.checkpoint_index % this.checkpoints.length]['position'])*2) * (200 * (this.checkpoint_index + 1))
         }
 
         if(step_num % 5 != 0){return}
@@ -134,6 +134,7 @@ class Agent
                 (this.reward + (this.agent_parameters['gamma'] * this.q_table[this.current_state][next_action]) - 
                 this.q_table[this.previous_state][this.previous_action])
         }
+        //else if(this.agent_parameters['learning_type'] == 'QLearning'){}
 
         this.previous_action = next_action
 
